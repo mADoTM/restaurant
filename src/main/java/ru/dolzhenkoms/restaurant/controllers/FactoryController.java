@@ -47,7 +47,8 @@ public class FactoryController {
         Factory factory = new Factory();
         factory.setName(name);
 
-        factoryRepository.save(factory);
+        if(factoryRepository.findByName(name) == null)
+            factoryRepository.save(factory);
 
         return new ModelAndView("redirect:/factory");
     }

@@ -47,7 +47,8 @@ public class ProductController {
         product.setName(name);
         product.setUnits(units);
 
-        productRepository.save(product);
+        if(productRepository.findByName(name) == null)
+            productRepository.save(product);
 
         return new ModelAndView("redirect:/product");
     }
