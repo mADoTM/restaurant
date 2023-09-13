@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Edit Product</title>>
+</head>
+<body>
+<div>
+    <a th:href="@{'/dish'}" th:text="Dishes"/>
+    <a th:href="@{'/product'}" th:text="Products"/>
+    <a th:href="@{'/supply'}" th:text="Supplies"/>
+    <a th:href="@{'/factory'}" th:text="Factories"/>
+    <a th:href="@{'/menu'}" th:text="Menus"/>
+</div>
+<form action="#" th:action="@{/product/save}" th:object="${product}"
+      method="POST">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="text" th:field="*{name}" placeholder="Product name">
+    <input type="text" th:field="*{units}" placeholder="Product units">
+    <button type="submit">Update Product</button>
+</form>
+
+<hr>
+
+<a th:href="@{/product}">Back to Product List</a>
+</body>
+</html>

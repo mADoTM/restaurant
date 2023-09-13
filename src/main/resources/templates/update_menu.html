@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <a th:href="@{'/dish'}" th:text="Dishes"/>
+    <a th:href="@{'/product'}" th:text="Products"/>
+    <a th:href="@{'/supply'}" th:text="Supplies"/>
+    <a th:href="@{'/factory'}" th:text="Factories"/>
+    <a th:href="@{'/menu'}" th:text="Menus"/>
+</div>
+<h1 th:text="${menu.date}"/>
+<div>
+    <form method="post" th:object="${new_dish}">
+        New dish
+        <table>
+            <tr>
+                <td>
+                    <select th:field="*{dish}">
+                        <option th:each="dish : ${dishes}" th:value="${dish.id}" th:text="${dish.name}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Добавить"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<h3>Dishes:</h3>
+<table id="myTable">
+    <tr>
+        <th>Name</th>
+        <th>Remove</th>
+    </tr>
+    <tr th:each="dish : ${menu.dishes}">
+        <td th:text="${dish.name}"></td>
+        <td>
+            <a th:href="@{/menu/update/{menuId}/delete/{dishId}(menuId = ${menu.id}, dishId = ${dish.id})}">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

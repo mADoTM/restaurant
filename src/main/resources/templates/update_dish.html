@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit dish</title>
+</head>
+<body>
+<div>
+    <a th:href="@{'/dish'}" th:text="Dishes"/>
+    <a th:href="@{'/product'}" th:text="Products"/>
+    <a th:href="@{'/supply'}" th:text="Supplies"/>
+    <a th:href="@{'/factory'}" th:text="Factories"/>
+    <a th:href="@{'/menu'}" th:text="Menus"/>
+</div>
+<h1 th:text="${dish.name}"/>
+<div>
+    <form method="post" th:object="${new_ingredient}">
+        Новый ингридиент
+        <table>
+            <tr>
+                <td><b>Product:</b></td>
+                <td>
+                    <select th:field="*{product}">
+                        <option th:each="product : ${products}" th:value="${product.getId()}" th:text="${product.name}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Добавить"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<h3>Ingredients:</h3>
+<table id="myTable">
+    <tr>
+        <th>Name</th>
+        <th>Remove</th>
+    </tr>
+    <tr th:each="product : ${dish.getIngredients()}">
+        <td th:text="${product.getName()}"></td>
+        <td>
+            <a th:href="@{/dish/update/{dishId}/delete/{productId}(dishId = ${dish.id}, productId = ${product.id})}">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

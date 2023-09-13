@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<div>
+    <a th:href="@{'/dish'}" th:text="Dishes"/>
+    <a th:href="@{'/product'}" th:text="Products"/>
+    <a th:href="@{'/supply'}" th:text="Supplies"/>
+    <a th:href="@{'/factory'}" th:text="Factories"/>
+    <a th:href="@{'/menu'}" th:text="Menus"/>
+</div>
+</body>
+</html>

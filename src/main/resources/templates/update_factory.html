@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Edit Factory</title>
+</head>
+<body>
+<div>
+  <a th:href="@{'dish'}" th:text="Dishes" />
+  <a th:href="@{'product'}" th:text="Products" />
+  <a th:href="@{'supply'}" th:text="Supplies" />
+  <a th:href="@{'factory'}" th:text="Factories" />
+  <a th:href="@{'menu'}" th:text="Menus" />
+</div>
+<form action="#" th:action="@{/factory/save}" th:object="${factory}"
+      method="POST">
+  <input type="hidden" th:field="*{id}"/>
+  <input type="text" th:field="*{name}" placeholder="Factory name">
+  <button type="submit">Update Factory</button>
+</form>
+
+<hr>
+
+<a th:href="@{/factory}">Back to Factory List</a>
+</body>
+</html>

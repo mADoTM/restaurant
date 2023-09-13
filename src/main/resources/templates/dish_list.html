@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dishes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+    <a th:href="@{'/dish'}" th:text="Dishes"/>
+    <a th:href="@{'/product'}" th:text="Products"/>
+    <a th:href="@{'/supply'}" th:text="Supplies"/>
+    <a th:href="@{'/factory'}" th:text="Factories"/>
+    <a th:href="@{'/menu'}" th:text="Menus"/>
+</div>
+<div>
+    <form method="post" th:object="${dish}">
+        <input type="text" name="name" th:value="*{name}" placeholder="Введите название блюда" />
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+<table id="myTable">
+    <tr>
+        <th>Dish Name</th>
+        <th>Edit</th>
+        <th>Remove</th>
+    </tr>
+    <tr th:each="dish : ${dishes}">
+        <td th:text="${dish.getName()}"></td>
+        <td>
+            <a th:href="@{'dish/update/' + ${dish.getId()}}" th:text="Edit" />
+        </td>
+        <td>
+            <a th:href="@{'dish/delete/' + ${dish.getId()}}" th:text="Delete" />
+        </td>
+    </tr>
+</table>
+<script>
+    function myFunction() {
+        // Объявить переменные
+        var nameInput, unitsInput, nameFilter, table, tr, td, i, txtValue;
+        nameInput = document.getElementById("inputNameSort");
+        nameFilter = nameInput.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(nameFilter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

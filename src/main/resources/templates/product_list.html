@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+    <a th:href="@{'/dish'}" th:text="Dishes"/>
+    <a th:href="@{'/product'}" th:text="Products"/>
+    <a th:href="@{'/supply'}" th:text="Supplies"/>
+    <a th:href="@{'/factory'}" th:text="Factories"/>
+    <a th:href="@{'/menu'}" th:text="Menus"/>
+</div>
+<div>
+    <form method="post">
+        <input type="text" name="name" placeholder="Введите название продукта" />
+        <input type="text" name="units" placeholder="Введите единицы измерения" />
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+<input type="text" id="inputNameSort" onkeyup="filterListByQuery()" placeholder="Поиск по имени продукта">
+<table id="myTable">
+    <tr>
+        <th>Name</th>
+        <th>Units</th>
+        <th>Edit</th>
+        <th>Remove</th>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.getName()}"></td>
+        <td th:text="${product.getUnits()}"></td>
+        <td>
+            <a th:href="@{'product/update/' + ${product.getId()}}" th:text="Edit" />
+        </td>
+        <td>
+            <a th:href="@{'product/delete/' + ${product.getId()}}" th:text="Delete" />
+        </td>
+        <td th:text="${product.getId()}" hidden>
+
+        </td>
+    </tr>
+</table>
+<span>
+    <button id="prevButton">Previous</button>
+    <span id="pageNumberInfo"></span>
+    <button id="nextButton">Next</button>
+</span>
+<script>
+    var data = [];
+    let table = document.querySelector('#myTable');
+    window.onload = (event) => {
+        data = table_to_array("myTable");
+        renderTable();
+    };
+
+    function filterListByQuery() {
+        let nameInput, nameFilter;
+        nameInput = document.getElementById("inputNameSort");
+        nameFilter = nameInput.value.toUpperCase();
+
+
+        return data.filter(c => c[0].toUpperCase().indexOf(nameFilter) > -1)
+    }
+
+    const pageSize = 10;
+    let curPage = 1;
+    const info = document.getElementById("pageNumberInfo")
+
+    function table_to_array(table_id) {
+        myData = document.getElementById(table_id).rows
+        //console.log(myData)
+        my_liste = []
+        for (var i = 1; i < myData.length; i++) {
+            el = myData[i].children
+            my_el = []
+            for (var j = 0; j < el.length; j++) {
+                if(j < 2 || j === 4)
+                my_el.push(el[j].innerText);
+            }
+            my_liste.push(my_el)
+
+        }
+        return my_liste
+    }
+
+    document.querySelector('#nextButton').addEventListener('click', nextPage, false);
+    document.querySelector('#prevButton').addEventListener('click', previousPage, false);
+
+    function previousPage() {
+        if(curPage > 1) {
+            curPage--;
+        }
+        renderTable();
+    }
+
+    function nextPage() {
+        let result = filterListByQuery().length
+        if(result === 0) info.innerText = "Нет вариантов"
+        if((curPage * pageSize) < filterListByQuery().length) {
+            curPage++;
+        }
+        renderTable();
+    }
+
+    function renderTable() {
+        // create html
+        let result = '';
+        filterListByQuery().filter((row, index) => {
+            let start = (curPage-1)*pageSize;
+            let end =curPage*pageSize;
+            if(index >= start && index < end) return true;
+        }).forEach(c => {
+                result += `<tr>
+            <td>${c[0]}</td>
+            <td>${c[1]}</td>
+            <td><a href="product/update/${c[2]}" >Edit</a></td>
+            <td><a href="product/delete/${c[2]}" >Delete</a></td>
+            </tr>`;
+        });
+        table.innerHTML = result;
+
+        let length = filterListByQuery().length
+        if(length === 0) info.innerText = "Нет вариантов"
+        else info.innerText = "" + curPage
+    }
+</script>
+</body>
+</html>

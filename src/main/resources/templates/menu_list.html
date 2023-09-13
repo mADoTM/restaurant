@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menues</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+    <a th:href="@{'/dish'}" th:text="Dishes"/>
+    <a th:href="@{'/product'}" th:text="Products"/>
+    <a th:href="@{'/supply'}" th:text="Supplies"/>
+    <a th:href="@{'/factory'}" th:text="Factories"/>
+    <a th:href="@{'/menu'}" th:text="Menus"/>
+</div>
+<div>
+    <form method="post" th:object="${menu}">
+        <input type="date" name="date" th:value="*{date}" placeholder="Введите название блюда" />
+        <button type="submit">Добавить</button>
+    </form>
+</div>
+<table id="myTable">
+    <tr>
+        <th>Date</th>
+        <th>Edit</th>
+        <th>Remove</th>
+    </tr>
+    <tr th:each="menu : ${menus}">
+        <td th:text="${menu.date}"></td>
+        <td>
+            <a th:href="@{'menu/update/' + ${menu.id}}" th:text="Edit" />
+        </td>
+        <td>
+            <a th:href="@{'menu/delete/' + ${menu.id}}" th:text="Delete" />
+        </td>
+    </tr>
+</table>
+</body>
+</html>
